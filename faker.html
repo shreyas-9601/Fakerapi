@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Faker API</title>
+  </head>
+  <body>
+    <h1>Faker API</h1>
+    <label for="resource">Select a resource:</label>
+    <select id="resource">
+      <option value="persons">Persons</option>
+      <option value="companies">Companies</option>
+      <option value="credit_cards">Credit Cards</option>
+    </select>
+    <button id="searchButton">Search</button>
+    <div id="results"></div>
+    <script>
+      const apiKey = 'YOUR_API_KEY';
+      const searchButton = document.getElementById('searchButton');
+      const resourceSelect = document.getElementById('resource');
+      const resultsDiv = document.getElementById('results');
+      
+      searchButton.addEventListener('click', () => {
+        const resource = resourceSelect.value;
+        const apiUrl = `https://fakerapi.it/api/v1/${resource}?_quantity=10&apikey=${apiKey}`;
+        
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            // process the data and display it in the resultsDiv
+            const item1 = data.data[0];
+            const item2 = data.data[1];
+            const item3 = data.data[2];
+            resultsDiv.innerHTML = `
+              <p><strong>Item 1:</strong> ${JSON.stringify(item1)}</p>
+              <p><strong>Item 2:</strong> ${JSON.stringify(item2)}</p>
+              <p><strong>Item 3:</strong> ${JSON.stringify(item3)}</p>
+            `;
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+      });
+    </script>
+  </body>
+</html>
